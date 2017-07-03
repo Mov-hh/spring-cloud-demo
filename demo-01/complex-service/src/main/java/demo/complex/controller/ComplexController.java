@@ -1,6 +1,6 @@
 package demo.complex.controller;
 
-import demo.complex.base.api.BaseAPI;
+import demo.base.api.BaseAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
