@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/complex", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ComplexController {
     private static Logger logger = LoggerFactory.getLogger(ComplexController.class);
 
