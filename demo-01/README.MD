@@ -40,3 +40,4 @@ java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.
 java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 
+java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --eureka.client.serviceUrl.defaultZone=http://192.168.9.80:18000/eureka/
