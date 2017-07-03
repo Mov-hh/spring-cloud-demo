@@ -22,9 +22,21 @@ java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.prof
 验证：浏览器访问[eureka服务网址](http://192.168.9.80:18801/)
 【注】`192.168.9.80`需调整为jar包所在服务器的ip
 
-2）启动`基础服务`
+3）启动`基础服务`
 
 ```
 java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+3）启动`基础服务`
+
+```
+java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+4）启动`API网关`
+
+```
+java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 

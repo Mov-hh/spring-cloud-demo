@@ -1,4 +1,4 @@
-package demo.complex.base.api;
+package demo.base.api;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
