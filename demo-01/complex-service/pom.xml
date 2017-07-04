@@ -4,18 +4,18 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>complex-service-01</artifactId>
+    <artifactId>complex-service</artifactId>
 
     <parent>
         <groupId>demo</groupId>
-        <artifactId>demo-01</artifactId>
+        <artifactId>demo</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>demo</groupId>
-            <artifactId>base-service-interface-01</artifactId>
+            <artifactId>base-service-interface</artifactId>
             <version>${parent.version}</version>
         </dependency>
 

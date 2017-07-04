@@ -27,7 +27,7 @@ cd <Root of demo-01>
 
 2) 启动`eureka服务`
 ```
-java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
 ```
 
 验证：浏览器访问[eureka服务网址](http://localhost:18000/)
@@ -35,7 +35,7 @@ java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.prof
 3）启动`基础服务`
 
 ```
-java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+java -jar base-service/impl/target/base-service-impl-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
 ```
 
 验证：
@@ -48,7 +48,7 @@ curl http://localhost:18100/base/hello?user=yyw
 3）启动`复合服务`
 
 ```
-java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
 ```
 
 验证：
@@ -60,7 +60,7 @@ curl http://localhost:18110/complex/hello?user=yyw
 4）启动`API网关`
 
 ```
-java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+java -jar api-gateway/target/api-gateway-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
 ```
 
 验证：
@@ -70,57 +70,101 @@ curl http://localhost:18010/base/hello?user=yyw
 curl http://localhost:18010/complex/hello?user=yyw
 ```
 
-## 测试1：双Eureka实例
+## 测试2：2个Eureka实例
 
-1) 进入工程根目录
-
+【成功的启动命令】
 ```
-cd <Root of demo-01>
-```
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18001 --eureka.instance.hostname=eureka01 --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/
 
-2) 启动`eureka服务`
-```
-java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --server.port=18001 --spring.profiles.active=test --spring.application.name=eureka-server --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/ --eureka.client.register-with-eureka=true --eureka.instance.preferIpAddress=true --eureka.instance.hostname=eureka01 --eureka.client.fetch-registry=true &
-
-java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --server.port=18002 --spring.profiles.active=test --spring.application.name=eureka-server --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/ --eureka.client.register-with-eureka=true --eureka.instance.preferIpAddress=true --eureka.instance.hostname=eureka02 --eureka.client.fetch-registry=true &
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18002 --eureka.instance.hostname=eureka02 --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/
 ```
 
-验证：浏览器访问[eureka服务网址](http://localhost:18000/)
-
-3）启动`基础服务`
-
+成功提示如下(以 http://eureka01:18001/ 为例)：
 ```
-java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
-```
-
-验证：
-
-```
-curl http://localhost:18100/base/hello?user=yyw
+registered-replicas： http://eureka02:18002/eureka/
+unavailable-replicas：
+available-replicas：http://eureka02:18002/eureka/
 ```
 
-
-3）启动`复合服务`
-
+【失败的启动命令-01】
 ```
-java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
-```
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18001 --eureka.instance.hostname=eureka01 --eureka.client.serviceUrl.defaultZone=http://127.0.0.1:18002/eureka/
 
-验证：
-
-```
-curl http://localhost:18110/complex/hello?user=yyw
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18002 --eureka.instance.hostname=eureka02 --eureka.client.serviceUrl.defaultZone=http://127.0.0.1:18001/eureka/
 ```
 
-4）启动`API网关`
+失败提示如下(以 http://eureka01:18001/ 为例)：
+```
+registered-replicas： http://eureka02:18002/eureka/
+unavailable-replicas：http://eureka02:18002/eureka/
+available-replicas
+```
+
+[注] 失败可能原因：`eureka.instance.hostname`的值和`eureka.client.serviceUrl.defaultZone`不匹配导致
+
+【失败的启动命令-02】
 
 ```
-java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18001 --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/
+
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18002 --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/
 ```
 
-验证：
+失败提示如下(以 http://eureka01:18001/ 为例)：
+```
+registered-replicas： http://eureka02:18002/eureka/
+unavailable-replicas：http://eureka02:18002/eureka/
+available-replicas
+```
+
+[注] 失败可能原因：配置`eureka.instance.hostname`缺失
+
+## 测试3：3个Eureka实例
+
+### 方案1 - 环状串联
 
 ```
-curl http://localhost:18010/base/hello?user=yyw
-curl http://localhost:18010/complex/hello?user=yyw
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18001 --eureka.instance.hostname=eureka01 --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/
+
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18002 --eureka.instance.hostname=eureka02 --eureka.client.serviceUrl.defaultZone=http://eureka03:18003/eureka/
+
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18003 --eureka.instance.hostname=eureka03 --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/
+```
+
+成功提示如下(以 http://eureka01:18001/ 为例)：
+```
+registered-replicas http://eureka02:18002/eureka/
+unavailable-replicas  
+available-replicas  http://eureka02:18002/eureka/
+```
+
+启动服务
+```
+java -jar base-service/impl/target/base-service-impl-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka02:18002/eureka/,http://eureka03:18003/eureka/
+
+java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka02:18002/eureka/,http://eureka03:18003/eureka/
+```
+
+### 方案2 - 每个节点都向另外两个节点注册
+
+```
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18001 --eureka.instance.hostname=eureka01 --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/,http://eureka03:18003/eureka/
+
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18002 --eureka.instance.hostname=eureka02 --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka03:18003/eureka/
+
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=18003 --eureka.instance.hostname=eureka03 --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka02:18002/eureka/
+```
+
+成功提示如下(以 http://eureka01:18001/ 为例)：
+```
+registered-replicas http://eureka03:18003/eureka/, http://eureka02:18002/eureka/
+unavailable-replicas  
+available-replicas  http://eureka03:18003/eureka/,http://eureka02:18002/eureka/,
+```
+
+启动服务
+```
+java -jar base-service/impl/target/base-service-impl-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka02:18002/eureka/,http://eureka03:18003/eureka/
+
+java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/,http://eureka02:18002/eureka/,http://eureka03:18003/eureka/
 ```
