@@ -13,7 +13,7 @@ demo-02
 ## 构建工程
 
 ```
-cd <Root of demo-01>
+cd <Root of demo-02>
 mvn clean package -Dmaven.test.skip=true
 ```
 
@@ -22,12 +22,12 @@ mvn clean package -Dmaven.test.skip=true
 1) 进入工程根目录
 
 ```
-cd <Root of demo-01>
+cd <Root of demo-02>
 ```
 
 2) 启动`eureka服务`
 ```
-java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
+java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar
 ```
 
 验证：浏览器访问[eureka服务网址](http://localhost:18000/)
@@ -35,7 +35,7 @@ java -jar eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar --spring.profile
 3）启动`基础服务`
 
 ```
-java -jar base-service/impl/target/base-service-impl-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
+java -jar base-service/impl/target/base-service-impl-1.0.0-SNAPSHOT.jar
 ```
 
 验证：
@@ -48,7 +48,7 @@ curl http://localhost:18100/base/hello?user=yyw
 3）启动`复合服务`
 
 ```
-java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
+java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar
 ```
 
 验证：
@@ -60,7 +60,7 @@ curl http://localhost:18110/complex/hello?user=yyw
 4）启动`API网关`
 
 ```
-java -jar api-gateway/target/api-gateway-1.0.0-SNAPSHOT.jar --spring.profiles.active=test
+java -jar api-gateway/target/api-gateway-1.0.0-SNAPSHOT.jar
 ```
 
 验证：
