@@ -38,7 +38,12 @@ java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.prof
 java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 
-验证：浏览器访问[eureka服务网址](http://localhost:18801/)
+验证：
+
+```
+curl http://localhost:18100/base/hello?user=yyw
+```
+
 
 3）启动`复合服务`
 
@@ -46,8 +51,21 @@ java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spr
 java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 
+验证：
+
+```
+curl http://localhost:18110/complex/hello?user=yyw
+```
+
 4）启动`API网关`
 
 ```
 java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+验证：
+
+```
+curl http://localhost:18010/base/hello?user=yyw
+curl http://localhost:18010/complex/hello?user=yyw
 ```
