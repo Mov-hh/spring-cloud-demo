@@ -57,15 +57,8 @@ java -jar complex-service/target/complex-service-1.0.0-SNAPSHOT.jar
 curl http://localhost:18110/complex/hello?user=yyw
 ```
 
-4）启动`API网关`
+4）
 
 ```
-java -jar api-gateway/target/api-gateway-1.0.0-SNAPSHOT.jar
-```
-
-验证：
-
-```
-curl http://localhost:18010/base/hello?user=yyw
-curl http://localhost:18010/complex/hello?user=yyw
+curl http://localhost:18110/health
 ```
