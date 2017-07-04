@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>demo</groupId>
-            <artifactId>base-service-interface-01</artifactId>
+            <artifactId>base-service-interface</artifactId>
             <version>${parent.version}</version>
         </dependency>
 
