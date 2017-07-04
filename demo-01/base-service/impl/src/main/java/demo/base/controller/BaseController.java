@@ -11,7 +11,7 @@ public class BaseController implements BaseAPI {
     private static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     @Override
-    public String hello(String user) {
+    public String hello(@RequestParam("user") String user) {
         logger.debug("Calling base controller. user: {}", user);
         return "hello, " + user;
     }
