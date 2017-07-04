@@ -17,7 +17,7 @@ cd <Root of demo-01>
 mvn clean package -Dmaven.test.skip=true
 ```
 
-## 测试
+## 测试1：单Eureka实例
 
 1) 进入工程根目录
 
@@ -28,6 +28,61 @@ cd <Root of demo-01>
 2) 启动`eureka服务`
 ```
 java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+验证：浏览器访问[eureka服务网址](http://localhost:18000/)
+
+3）启动`基础服务`
+
+```
+java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+验证：
+
+```
+curl http://localhost:18100/base/hello?user=yyw
+```
+
+
+3）启动`复合服务`
+
+```
+java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+验证：
+
+```
+curl http://localhost:18110/complex/hello?user=yyw
+```
+
+4）启动`API网关`
+
+```
+java -jar api-gateway/target/api-gateway-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
+```
+
+验证：
+
+```
+curl http://localhost:18010/base/hello?user=yyw
+curl http://localhost:18010/complex/hello?user=yyw
+```
+
+## 测试1：双Eureka实例
+
+1) 进入工程根目录
+
+```
+cd <Root of demo-01>
+```
+
+2) 启动`eureka服务`
+```
+java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --server.port=18001 --spring.profiles.active=test --spring.application.name=eureka-server --eureka.client.serviceUrl.defaultZone=http://eureka02:18002/eureka/ --eureka.client.register-with-eureka=true --eureka.instance.preferIpAddress=true --eureka.instance.hostname=eureka01 --eureka.client.fetch-registry=true &
+
+java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --server.port=18002 --spring.profiles.active=test --spring.application.name=eureka-server --eureka.client.serviceUrl.defaultZone=http://eureka01:18001/eureka/ --eureka.client.register-with-eureka=true --eureka.instance.preferIpAddress=true --eureka.instance.hostname=eureka02 --eureka.client.fetch-registry=true &
 ```
 
 验证：浏览器访问[eureka服务网址](http://localhost:18000/)
