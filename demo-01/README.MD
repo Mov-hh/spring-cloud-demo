@@ -10,6 +10,13 @@ demo-01
 3. base-service 基础服务
 4. complex-service 复合服务
 
+## 构建工程
+
+```
+cd <Root of demo-01>
+mvn clean package -Dmaven.test.skip=true
+```
+
 ## 测试
 
 1) 进入工程根目录
@@ -23,8 +30,7 @@ cd <Root of demo-01>
 java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 
-验证：浏览器访问[eureka服务网址](http://192.168.9.80:18801/)
-【注】`192.168.9.80`需调整为jar包所在服务器的ip
+验证：浏览器访问[eureka服务网址](http://localhost:18000/)
 
 3）启动`基础服务`
 
@@ -32,7 +38,9 @@ java -jar eureka-server/target/eureka-server-01-1.0.0-SNAPSHOT.jar --spring.prof
 java -jar base-service/impl/target/base-service-impl-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
 ```
 
-3）启动`基础服务`
+验证：浏览器访问[eureka服务网址](http://localhost:18801/)
+
+3）启动`复合服务`
 
 ```
 java -jar complex-service/target/complex-service-01-1.0.0-SNAPSHOT.jar --spring.profiles.active=test &
