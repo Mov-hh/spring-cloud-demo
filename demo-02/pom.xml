@@ -13,7 +13,7 @@
       <module>eureka-server</module>
       <module>base-service</module>
       <module>complex-service</module>
-      <module>api-gateway</module>
+      <module>turbine-server</module>
     </modules>
 
     <parent>
