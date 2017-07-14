@@ -7,8 +7,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
-@SpringBootApplication(scanBasePackages = {"demo.complex", "demo.base.api"})
-@EnableFeignClients("demo.base.api")
+//@SpringBootApplication(scanBasePackages = {"demo.complex", "demo.base.api"})
+//@EnableFeignClients("demo.base.api")
+@SpringBootApplication
+@EnableFeignClients
 @EnableEurekaClient
 @EnableHystrix
 @EnableCircuitBreaker
